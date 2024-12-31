@@ -1,50 +1,103 @@
-# Welcome to your Expo app 👋
+# Budget Tracker App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A comprehensive mobile application built with React Native and Expo for managing personal finances, tracking expenses, and monitoring income.
 
-## Get started
+## Features
 
-1. Install dependencies
+### Transaction Management
+- Add income transactions with customizable categories
+- Record expenses with detailed descriptions
+- View complete transaction history
+- Filter and sort transactions by type
 
-   ```bash
-   npm install
-   ```
+### Category Management
+- Create custom categories for both income and expenses
+- Edit existing categories
+- Organize transactions with color-coded categories
+- Delete unused categories
 
-2. Start the app
+### Financial Overview
+- Dashboard with current balance
+- Visual breakdown of expenses by category
+- Monthly income vs. expense comparison
+- Transaction trends and patterns
 
-   ```bash
-    npx expo start
-   ```
+## Technology Stack
 
-In the output, you'll find options to open the app in a
+- React Native
+- Expo
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+  
+## Prerequisites
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+Before you begin, ensure you have the following installed:
+- Node.js (v14 or later)
+- npm or yarn
+- Expo CLI
+- iOS Simulator (Mac only) or Android Studio (for Android emulator)
 
-## Get a fresh project
+## Installation
 
-When you're ready, run:
-
+1. Clone the repository:
 ```bash
-npm run reset-project
+git clone https://github.com/sujitmemane/budget_app.git
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+2. Navigate to the project directory:
+```bash
+cd budget_app
+```
 
-## Learn more
+3. Install dependencies:
+```bash
+npm install
+# or
+yarn install
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+4. Start the Expo development server:
+```bash
+npx expo start
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Usage
 
-## Join the community
+1. **Adding Income**
+   - Tap the '+' button
+   - Select 'Income'
+   - Enter amount and select category
+   - Add description (optional)
+   - Save transaction
 
-Join our community of developers creating universal apps.
+2. **Recording Expenses**
+   - Tap the '+' button
+   - Select 'Expense'
+   - Enter amount and select category
+   - Add description (optional)
+   - Save transaction
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+3. **Managing Categories**
+   - Navigate to Settings
+   - Select 'Categories'
+   - Add new or edit existing categories
+   - Assign colors for better visualization
+
+
+![Simulator Screenshot - iPhone SE (3rd generation) - 2025-01-01 at 02 33 31](https://github.com/user-attachments/assets/ee668752-c5a0-422b-b744-06cf823d1fbc)
+
+![Simulator Screenshot - iPhone SE (3rd generation) - 2025-01-01 at 02 33 36](https://github.com/user-attachments/assets/ff33b9fa-4833-4371-8294-d2665da54091)
+
+
+![Simulator Screenshot - iPhone SE (3rd generation) - 2025-01-01 at 02 33 41](https://github.com/user-attachments/assets/fb34bc44-337e-4300-b6aa-3c76d1d1c76e)
+
+
+![Simulator Screenshot - iPhone SE (3rd generation) - 2025-01-01 at 02 33 49](https://github.com/user-attachments/assets/04c09444-ced0-4f0a-bc75-f65e1e25d8b1)
+
+![Simulator Screenshot - iPhone SE (3rd generation) - 2025-01-01 at 02 33 53](https://github.com/user-attachments/assets/5fbb249b-872a-41d2-bedd-7230b2da8487)
+
+
+![Simulator Screenshot - iPhone SE (3rd generation) - 2025-01-01 at 02 33 58](https://github.com/user-attachments/assets/c2c15585-e6f4-4b3f-bfc3-f324e5dd239a)
+
+![Simulator Screenshot - iPhone SE (3rd generation) - 2025-01-01 at 02 34 02](https://github.com/user-attachments/assets/b17ee799-028c-4d0e-a480-6ec7e00e4256)
+
+![Simulator Screenshot - iPhone SE (3rd generation) - 2025-01-01 at 02 34 06](https://github.com/user-attachments/assets/c2fbbf26-c392-4140-8c06-a420e4f677a9)
