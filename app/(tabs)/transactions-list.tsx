@@ -17,6 +17,8 @@ const Transactions = () => {
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
 
+  console.log(transactions, "tanu");
+
   const filteredTransactions = transactions
     ?.filter((transaction) => {
       if (selectedFilter === "all") return true;
@@ -92,7 +94,6 @@ const Transactions = () => {
         </TouchableOpacity>
       </View>
 
-      {/* Search Bar */}
       <View style={styles.searchContainer}>
         <Ionicons
           name="search-outline"
@@ -108,7 +109,6 @@ const Transactions = () => {
         />
       </View>
 
-      {/* Filter Pills */}
       <View style={styles.filterContainer}>
         {filters.map((filter) => (
           <TouchableOpacity
@@ -131,7 +131,6 @@ const Transactions = () => {
         ))}
       </View>
 
-      {/* Transactions List */}
       <FlatList
         data={TransactionData}
         renderItem={renderTransaction}
@@ -140,7 +139,7 @@ const Transactions = () => {
         showsVerticalScrollIndicator={false}
       />
 
-      {TransactionData.lenght === 0 && (
+      {TransactionData?.lenght === 0 && (
         <View>
           <Text>No Transactions found</Text>
         </View>
@@ -149,6 +148,7 @@ const Transactions = () => {
   );
 };
 
+export default Transactions;
 const styles = StyleSheet.create({
   container: {
     flex: 1,

@@ -11,15 +11,16 @@ import {
 } from "react-native";
 import { TransactionContext } from "@/context/TransactionContextProvider";
 import { useNavigation } from "@react-navigation/native";
-import Ionicons from "react-native-vector-icons/Ionicons"; // Import Ionicons for back arrow
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { Transaction } from "@/context/types";
 
 export default function TransactionDetailPage() {
   const params = useLocalSearchParams();
   const { transactions } = useContext(TransactionContext);
-  const [transaction, setTransaction] = useState(null);
+  const [transaction, setTransaction] = useState<Transaction | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigation = useNavigation(); // To navigate back
+  const navigation = useNavigation();
 
   useEffect(() => {
     try {
@@ -63,7 +64,7 @@ export default function TransactionDetailPage() {
   };
 
   const getAmountColor = () => {
-    return transaction.type === "expense" ? "#FF3B30" : "#34C759";
+    return transaction?.type === "expense" ? "#FF3B30" : "#34C759";
   };
 
   return (
@@ -140,7 +141,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#1C1C1E",
     marginBottom: 8,
-    flex: 1, // Takes up available space, ensuring title aligns correctly
+    flex: 1,
   },
   amount: {
     fontSize: 34,

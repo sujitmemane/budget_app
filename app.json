@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "expense_tracker",
-    "slug": "expense_tracker",
+    "slug": "budget-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -36,6 +36,15 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "11760a0a-8839-4cbd-82c6-6ec76c97d5a1"
+      }
+    },
+    "owner": "sujeethmemane"
   }
 }

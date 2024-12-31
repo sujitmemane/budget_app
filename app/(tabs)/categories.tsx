@@ -6,6 +6,7 @@ import {
   FlatList,
   Modal,
   TextInput,
+  Alert,
 } from "react-native";
 import React, { useContext, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
@@ -13,15 +14,18 @@ import {
   generateRandomId,
   TransactionContext,
 } from "@/context/TransactionContextProvider";
+import { Category } from "@/context/types";
 
 const Categories = () => {
   const { categories, addCategory, deleteCategory, updateCategory } =
     useContext(TransactionContext);
-  const [editMode, setEditMode] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedColor, setSelectedColor] = useState("#4CAF50");
-  const [categoryName, setCategoryName] = useState("");
-  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+  const [editMode, setEditMode] = useState<boolean>(false);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [selectedColor, setSelectedColor] = useState<string>("#4CAF50");
+  const [categoryName, setCategoryName] = useState<string>("");
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
+    null
+  );
 
   const colorOptions = [
     "#4CAF50",
@@ -65,6 +69,7 @@ const Categories = () => {
         icon: selectedIcon,
         color: selectedColor,
       });
+      Alert.alert("Category updated successfully!");
     } else {
       addCategory({
         id: generateRandomId(),
@@ -72,16 +77,17 @@ const Categories = () => {
         icon: selectedIcon,
         color: selectedColor,
       });
+      Alert.alert("Category added successfully!");
     }
     setModalVisible(false);
     resetModal();
   };
 
-  const onDeleteCategory = (id) => {
+  const onDeleteCategory = (id: string) => {
     deleteCategory(id);
   };
 
-  const onEditCategory = (id) => {
+  const onEditCategory = (id: string) => {
     const categoryToEdit = categories?.find((item) => item.id === id);
     if (categoryToEdit) {
       setEditMode(true);
@@ -98,7 +104,7 @@ const Categories = () => {
     resetModal();
   };
 
-  const renderCategory = ({ item }) => (
+  const renderCategory = ({ item }: { item: Category }) => (
     <TouchableOpacity style={styles.categoryCard}>
       <View
         style={[styles.categoryIcon, { backgroundColor: item.color + "20" }]}
@@ -107,7 +113,7 @@ const Categories = () => {
       </View>
       <View style={styles.categoryInfo}>
         <Text style={styles.categoryName}>{item.name}</Text>
-        <Text style={styles.transactionCount}>24 transactions</Text>
+        {/* <Text style={styles.transactionCount}>24 transactions</Text> */}
       </View>
       <View style={styles.actionButtons}>
         <TouchableOpacity

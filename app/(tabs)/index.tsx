@@ -11,7 +11,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { TransactionContext } from "@/context/TransactionContextProvider";
 
-const formatDate = (date) => {
+const formatDate = (date: number) => {
   return new Date(date).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
@@ -35,7 +35,6 @@ const Index = () => {
   });
   return (
     <ScrollView style={styles.container}>
-      {/* Header Section */}
       <View style={styles.header}>
         <View>
           <Text style={styles.welcomeText}>Welcome Back 👋</Text>
@@ -46,7 +45,6 @@ const Index = () => {
         </TouchableOpacity>
       </View>
 
-      {/* Balance Card */}
       <View style={styles.balanceCard}>
         <Text style={styles.balanceTitle}>Total Balance</Text>
         <Text style={styles.balanceAmount}>₹{income - expense}</Text>
@@ -73,7 +71,6 @@ const Index = () => {
         </View>
       </View>
 
-      {/* Quick Actions */}
       <View style={styles.quickActions}>
         <TouchableOpacity
           onPress={() => router.push("/add-income")}
@@ -95,18 +92,19 @@ const Index = () => {
           <Text style={styles.actionText}>Add Expense</Text>
         </TouchableOpacity>
       </View>
-      {/* Recent Transactions */}
+
       <View style={styles.section}>
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Recent Transactions</Text>
-          <TouchableOpacity onPress={() => router.push("/(tabs)/transactions")}>
+          <TouchableOpacity
+            onPress={() => router.push("/(tabs)/transactions-list")}
+          >
             <Text style={styles.seeAllText}>See All</Text>
           </TouchableOpacity>
         </View>
 
-        {/* Transaction Items */}
         <View style={styles.transactionList}>
-          {TransactionData.map((item, index) => (
+          {TransactionData.slice(0, 3).map((item, index) => (
             <TouchableOpacity
               onPress={() => router.push(`/transactions/${item?.id}`)}
               key={index}

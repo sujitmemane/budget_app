@@ -1,7 +1,29 @@
 import React, { createContext, ReactNode, useMemo, useState } from "react";
 import { Category, Transaction } from "./types";
 
-export const TransactionContext = createContext({});
+interface TransactionContextType {
+  transactions: Transaction[];
+  categories: Category[];
+  addCategory: (category: Category) => void;
+  deleteCategory: (id: string) => void;
+  updateCategory: (category: Category) => void;
+  addTransaction: (transaction: Transaction) => void;
+  income: number;
+  expense: number;
+}
+
+const defaultContext: TransactionContextType = {
+  transactions: [],
+  categories: [],
+  addCategory: () => {},
+  deleteCategory: () => {},
+  updateCategory: () => {},
+  addTransaction: () => {},
+  income: 0,
+  expense: 0,
+};
+export const TransactionContext =
+  createContext<TransactionContextType>(defaultContext);
 
 export const generateRandomId = () => {
   return Math.random().toString(36).substring(2, 15);

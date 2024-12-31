@@ -7,7 +7,10 @@ import {
   Alert,
 } from "react-native";
 import React, { useContext, useState } from "react";
-import { TransactionContext } from "@/context/TransactionContextProvider";
+import {
+  generateRandomId,
+  TransactionContext,
+} from "@/context/TransactionContextProvider";
 import { Category } from "@/context/types";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
@@ -67,14 +70,16 @@ const AddExpense = () => {
 
     if (isValid) {
       addTransaction({
+        id: generateRandomId(),
         name,
         description,
         amount: parseFloat(amount),
         category: selectedCategory?.name,
         type: "expense",
+        date: Date.now(),
       });
       Alert.alert("Success", "Income added successfully!");
-      router.push("/(tabs)/transactions");
+      router.push("/(tabs)/transactions-list");
     } else {
       Alert.alert("Error", "Please fill in all fields correctly.");
     }
