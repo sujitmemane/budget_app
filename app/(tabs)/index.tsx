@@ -1,74 +1,315 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  Dimensions,
+  TouchableOpacity,
+} from "react-native";
+import React, { useContext } from "react";
+import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
+import { TransactionContext } from "@/context/TransactionContextProvider";
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+const formatDate = (date) => {
+  return new Date(date).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};
 
-export default function HomeScreen() {
+const Index = () => {
+  const screenWidth = Dimensions.get("window").width;
+  const { income, expense, transactions, categories } =
+    useContext(TransactionContext);
+
+  const TransactionData = transactions?.map((transaction) => {
+    const category = categories.find(
+      (category) => category.name === transaction?.category
+    );
+    return {
+      ...transaction,
+      category,
+    };
+  });
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12'
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <ScrollView style={styles.container}>
+      {/* Header Section */}
+      <View style={styles.header}>
+        <View>
+          <Text style={styles.welcomeText}>Welcome Back 👋</Text>
+          <Text style={styles.subText}>Track your expenses easily</Text>
+        </View>
+        <TouchableOpacity style={styles.profileButton}>
+          <Ionicons name="person-circle-outline" size={40} color="#333" />
+        </TouchableOpacity>
+      </View>
+
+      {/* Balance Card */}
+      <View style={styles.balanceCard}>
+        <Text style={styles.balanceTitle}>Total Balance</Text>
+        <Text style={styles.balanceAmount}>₹{income - expense}</Text>
+        <View style={styles.balanceMetrics}>
+          <View style={styles.metric}>
+            <Ionicons name="arrow-up-circle" size={24} color="#4CAF50" />
+            <View style={styles.metricText}>
+              <Text style={styles.metricLabel}>Income</Text>
+              <Text style={[styles.metricAmount, styles.incomeColor]}>
+                ₹ {income}
+              </Text>
+            </View>
+          </View>
+          <View style={styles.metricDivider} />
+          <View style={styles.metric}>
+            <Ionicons name="arrow-down-circle" size={24} color="#F44336" />
+            <View style={styles.metricText}>
+              <Text style={styles.metricLabel}>Expenses</Text>
+              <Text style={[styles.metricAmount, styles.expenseColor]}>
+                ₹{expense}
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+
+      {/* Quick Actions */}
+      <View style={styles.quickActions}>
+        <TouchableOpacity
+          onPress={() => router.push("/add-income")}
+          style={styles.actionButton}
+        >
+          <View style={[styles.actionIcon, { backgroundColor: "#E3F2FD" }]}>
+            <Ionicons name="add-circle" size={24} color="#4CAF50" />
+          </View>
+          <Text style={styles.actionText}>Add Income</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => router.push("/add-expense")}
+          style={styles.actionButton}
+        >
+          <View style={[styles.actionIcon, { backgroundColor: "#FFEBEE" }]}>
+            <Ionicons name="remove-circle" size={24} color="#F44336" />
+          </View>
+          <Text style={styles.actionText}>Add Expense</Text>
+        </TouchableOpacity>
+      </View>
+      {/* Recent Transactions */}
+      <View style={styles.section}>
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>Recent Transactions</Text>
+          <TouchableOpacity onPress={() => router.push("/(tabs)/transactions")}>
+            <Text style={styles.seeAllText}>See All</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Transaction Items */}
+        <View style={styles.transactionList}>
+          {TransactionData.map((item, index) => (
+            <TouchableOpacity
+              onPress={() => router.push(`/transactions/${item?.id}`)}
+              key={index}
+              style={styles.transactionItem}
+            >
+              <View style={styles.transactionIcon}>
+                <Ionicons
+                  name={`${item?.category?.icon}-outline`}
+                  size={24}
+                  color={item?.type === "income" ? "#4CAF50" : "#F44336"}
+                />
+              </View>
+              <View style={styles.transactionInfo}>
+                <Text style={styles.transactionTitle}>{item.name}</Text>
+                <Text style={styles.transactionDate}>
+                  {formatDate(item?.date)}
+                </Text>
+              </View>
+              <Text style={styles.transactionAmount}>
+                {item?.type === "income" ? (
+                  <Text
+                    style={{
+                      color: "#4CAF50",
+                    }}
+                  >
+                    + ₹{item?.amount}
+                  </Text>
+                ) : (
+                  <Text
+                    style={{
+                      color: "#F44336",
+                    }}
+                  >
+                    - ₹{item?.amount}
+                  </Text>
+                )}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </View>
+    </ScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: {
+    flex: 1,
+    backgroundColor: "#f5f5f5",
   },
-  stepContainer: {
-    gap: 8,
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 20,
+    paddingTop: 60,
+    backgroundColor: "#fff",
+  },
+  welcomeText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#333",
+  },
+  subText: {
+    fontSize: 16,
+    color: "#666",
+    marginTop: 4,
+  },
+  profileButton: {
+    padding: 4,
+  },
+  balanceCard: {
+    backgroundColor: "#fff",
+    margin: 20,
+    borderRadius: 20,
+    padding: 20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  balanceTitle: {
+    fontSize: 16,
+    color: "#666",
+  },
+  balanceAmount: {
+    fontSize: 32,
+    fontWeight: "bold",
+    color: "#333",
+    marginVertical: 10,
+  },
+  balanceMetrics: {
+    flexDirection: "row",
+    marginTop: 20,
+    paddingTop: 20,
+    borderTopWidth: 1,
+    borderTopColor: "#eee",
+  },
+  metric: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  metricDivider: {
+    width: 1,
+    backgroundColor: "#eee",
+    marginHorizontal: 15,
+  },
+  metricText: {
+    marginLeft: 10,
+  },
+  metricLabel: {
+    fontSize: 14,
+    color: "#666",
+  },
+  metricAmount: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  incomeColor: {
+    color: "#4CAF50",
+  },
+  expenseColor: {
+    color: "#F44336",
+  },
+  quickActions: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 20,
+  },
+  actionButton: {
+    alignItems: "center",
+  },
+  actionIcon: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 8,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  actionText: {
+    fontSize: 12,
+    color: "#333",
+  },
+  section: {
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    margin: 20,
+    padding: 20,
+  },
+  sectionHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 15,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333",
+  },
+  seeAllText: {
+    fontSize: 14,
+    color: "#2196F3",
+  },
+  transactionList: {
+    gap: 15,
+  },
+  transactionItem: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  transactionIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "#f5f5f5",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  transactionInfo: {
+    flex: 1,
+    marginLeft: 15,
+  },
+  transactionTitle: {
+    fontSize: 16,
+    color: "#333",
+  },
+  transactionDate: {
+    fontSize: 14,
+    color: "#666",
+    marginTop: 2,
+  },
+  transactionAmount: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#F44336",
   },
 });
+
+export default Index;
